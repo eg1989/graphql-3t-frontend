@@ -7,7 +7,7 @@
       </v-col>
     </v-row>
 
-      <form action="POST" @submit.prevent="loginUser">
+      <v-form action="POST" @submit.prevent="loginUser">
         <v-text-field
           id="email"
           type="text"
@@ -22,13 +22,13 @@
           placeholder="Password"
           v-model="authDetails.password"
         />
-        <v-btn class="auth-submit primary">submit</v-btn>
+        <v-btn type="submit" class="auth-submit primary">submit</v-btn>
 
         <p class="auth-text">
           Don't have an account?
-          <router-link to="/"> Register </router-link>
+          <router-link to="/" > Register </router-link>
         </p>
-      </form>
+      </v-form>
 <!--    </div>-->
   </v-container>
 </template>

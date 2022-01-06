@@ -37,7 +37,7 @@
                     placeholder="Password"
                     v-model="authDetails.password"
                 />
-                <v-btn class="auth-submit primary">submit</v-btn>
+                <v-btn type="submit" class="auth-submit primary">submit</v-btn>
 
                 <p class="auth-text">
                     Already have an account?

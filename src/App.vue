@@ -4,7 +4,10 @@
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
             <v-toolbar-title>Page title</v-toolbar-title>
-
+<!--            <v-spacer></v-spacer>-->
+<!--            <router-link to="/">Home</router-link> |-->
+<!--            <router-link to="/arrivals">Arrivals</router-link> |-->
+<!--            <router-link to="/departures">Departures</router-link>-->
             <v-spacer></v-spacer>
 
             <v-btn icon>
