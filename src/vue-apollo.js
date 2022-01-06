@@ -13,30 +13,10 @@ Vue.use(VueApollo)
 const AUTH_TOKEN = 'apollo-token'
 
 // Http endpoint
-const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://10.2.1.96:8080/graphql/'
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://10.2.1.96:8080/graphql'
 
 // WebSocket endpoint
 const wsEndpoint = process.env.VUE_APP_GRAPHQL_WS || 'ws://10.2.1.96:8080/subscriptions'
-
-const httpLink = new HttpLink({
-  uri: httpEndpoint
-})
-
-const webSocketLink = new WebSocketLink({
-  uri: wsEndpoint,
-  options: {
-    reconnect: true
-  }
-})
-
-const link = split(
-  ({query}) => {
-    const definition = getMainDefinition(query)
-    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
-  },
-  webSocketLink,
-  httpLink
-)
 
 // Config
 const defaultOptions = {
@@ -59,7 +39,7 @@ const defaultOptions = {
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  link,
+  // link,
 
   // Override default cache
   // cache: myCache
@@ -83,8 +63,28 @@ export function createProvider (options = {}) {
   })
   apolloClient.wsClient = wsClient
 
+  const httpLink = new HttpLink({
+    uri: httpEndpoint
+  })
+  
+  const webSocketLink = new WebSocketLink({
+    uri: wsEndpoint,
+    options: {
+      reconnect: true
+    }
+  })
+
+  apolloClient.link = split(
+    ({query}) => {
+      const definition = getMainDefinition(query)
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+    },
+    webSocketLink,
+    httpLink
+  )
+
   // Create vue apollo provider
-  const apolloProvider = new VueApollo({
+  return new VueApollo({
     defaultClient: apolloClient,
     defaultOptions: {
       $query: {
@@ -96,8 +96,6 @@ export function createProvider (options = {}) {
       console.log('%cError', 'background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;', error.message)
     },
   })
-
-  return apolloProvider
 }
 
 // Manually call this when user log in
