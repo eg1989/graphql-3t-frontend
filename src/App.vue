@@ -1,5 +1,30 @@
 <template>
-    <v-app>
+    <div>
+        <v-app-bar color="deep-purple accent-4" dense dark>
+            <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+            <v-toolbar-title>Page title</v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <v-btn icon>
+                <v-icon>mdi-face-man</v-icon>
+            </v-btn>
+
+            <v-btn icon to="/login">
+                <v-icon>mdi-lock-open</v-icon>
+            </v-btn>
+        </v-app-bar>
+        <v-app>
+            <v-main>
+                <router-view />
+            </v-main>
+        </v-app>
+    </div>
+    <!-- <v-app>
+       
+    </v-app> -->
+    <!-- <v-app>
         <header class="header">
             <div class="app-name">Blogr</div>
             <div v-if="authStatus" id="nav">
@@ -16,15 +41,15 @@
             <router-view />
         </v-main>
 
-        <!-- <v-main>
+        <v-main>
             <v-container>
                 <router-link to="/">Home</router-link> |
                 <router-link to="/arrivals">Arrivals</router-link> |
                 <router-link to="/departures">Departures</router-link>
             </v-container>
             <router-view />
-        </v-main> -->
-    </v-app>
+        </v-main>
+    </v-app> -->
 </template>
 
 <script>
@@ -33,7 +58,13 @@
         name: 'App',
 
         data: () => ({
-            //
+            appTitle: 'Awesome App',
+            sidebar: false,
+            menuItems: [
+                { title: 'Home', path: '/home', icon: 'home' },
+                { title: 'Sign Up', path: '/signup', icon: 'face' },
+                { title: 'Sign In', path: '/login', icon: 'lock_open' }
+            ]
         }),
         methods: {
             logOut: function () {
@@ -48,28 +79,4 @@
 </script>
 
 <style>
-#app {
-  font-family: 'Baloo Chettan 2', cursive;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  width: 100%;
-}
-#nav {
-  display: flex;
-}
-#nav>div{
-  color: white;
-  margin-top: 1rem;
-  margin-right: 2rem;
-  font-size: 2rem;
-  font-weight: 500;
-}
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
