@@ -1,29 +1,36 @@
 <template>
-    <div class="auth">
+  <v-container>
+<!--    <div class="auth">-->
+    <v-row>
+      <v-col>
         <h3>Log In</h3>
-        <form action="POST" @submit.prevent="loginUser">
-            <label for="email">Email Address</label>
-            <input
-                type="text"
-                name="email"
-                placeholder="jagaban@borgu.com"
-                v-model="authDetails.email"
-            />
-            <label for="password">Password</label>
-            <input
-                type="password"
-                name="password"
-                placeholder="password"
-                v-model="authDetails.password"
-            />
-            <button class="auth-submit">submit</button>
+      </v-col>
+    </v-row>
 
-            <p class="auth-text">
-                Don't have an account?
-                <router-link to="/"> Register </router-link>
-            </p>
-        </form>
-    </div>
+      <form action="POST" @submit.prevent="loginUser">
+        <v-text-field
+          id="email"
+          type="text"
+          name="email"
+          placeholder="Username/E-Mail"
+          v-model="authDetails.email"
+        />
+        <v-text-field
+          id="password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          v-model="authDetails.password"
+        />
+        <v-btn class="auth-submit primary">submit</v-btn>
+
+        <p class="auth-text">
+          Don't have an account?
+          <router-link to="/"> Register </router-link>
+        </p>
+      </form>
+<!--    </div>-->
+  </v-container>
 </template>
 <script>
     import { mapActions } from 'vuex'

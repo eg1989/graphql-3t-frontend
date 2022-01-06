@@ -1,35 +1,50 @@
 <template>
     <div class="auth">
-        <h3>Sign Up</h3>
-        <form action="POST" @submit.prevent="registerUser">
-            <label for="name"> Name</label>
-            <input
-                type="text"
-                name="name"
-                placeholder="John Doe"
-                v-model="authDetails.name"
-            />
-            <label for="email">Email Address</label>
-            <input
-                type="email"
-                name="email"
-                placeholder="jagaban@borgu.com"
-                v-model="authDetails.email"
-            />
-            <label for="password">Password</label>
-            <input
-                type="password"
-                name="password"
-                placeholder="password"
-                v-model="authDetails.password"
-            />
-            <button class="auth-submit">submit</button>
+        <v-container>
+          <v-row>
+            <v-col>
+              <h3>Sign In</h3>
+            </v-col>
+            <v-col>
 
-            <p class="auth-text">
-                Already have an account?
-                <router-link to="/login"> Login </router-link>
-            </p>
-        </form>
+            </v-col>
+          </v-row>
+          <v-row>
+
+          </v-row>
+
+<!--          <h3>Sign Up</h3>-->
+            <form action="POST" @submit.prevent="registerUser">
+
+                <v-text-field
+                    id="name"
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    v-model="authDetails.name"
+                />
+                <v-text-field
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="E-Mail"
+                    v-model="authDetails.email"
+                />
+                <v-text-field
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    v-model="authDetails.password"
+                />
+                <v-btn class="auth-submit primary">submit</v-btn>
+
+                <p class="auth-text">
+                    Already have an account?
+                    <router-link to="/login"> Login </router-link>
+                </p>
+            </form>
+        </v-container>
     </div>
 </template>
 <script>
