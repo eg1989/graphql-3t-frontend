@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         <tr
-            v-for="flight in board"
+            v-for="flight in departures.flights"
             :key="flight.id"
         >
           <td>{{ flight.id }}</td>
@@ -41,61 +41,53 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+
 export default {
   name: "Departures",
   data() {
     return {
-      board: [
-        {
-          id: "FL2507",
-          start: "Berlin",
-          destination: "Madeira",
-          arrival: "",
-          departure: "17:10",
-          status: "READY_FOR_TAKE_OFF"
-        },
-        {
-          id: "ZT1958",
-          start: "Berlin",
-          destination: "München",
-          arrival: "",
-          departure: "17:25",
-          status: "BOARDING"
-        },
-        {
-          id: "AC703",
-          start: "Berlin",
-          destination: "Düsseldorf",
-          arrival: "",
-          departure: "17:35",
-          status: "BOARDING"
-        },
-        {
-          id: "TG8349",
-          start: "Berlin",
-          destination: "Stockholm",
-          arrival: "",
-          departure: "17:47",
-          status: "IN_TIME"
-        },
-        {
-          id: "KP4920",
-          start: "Berlin",
-          destination: "Rom",
-          arrival: "",
-          departure: "18:21",
-          status: "DELAYED"
-        },
-        {
-          id: "AC703",
-          start: "Berlin",
-          destination: "Athen",
-          arrival: "",
-          departure: "18:36",
-          status: "CANCELLED"
-        },
-      ]
+      departures: []
     }
+  },
+  apollo: {
+    departures: gql`
+      query {
+        departures: currentBoard(type: DEPARTURES) {
+          type
+          title
+          flights {
+            id
+            start
+            destination
+            arrival
+            status
+          },
+        }
+      }
+    `,
+    // subscribeToMore: {
+    //   document: gql`
+    //     subscription status($param: FlightStatus!) {
+    //       flightStatusChanged(param: $param) {
+    //         id
+    //         start
+    //         destination
+    //         arrival
+    //         departure
+    //         status
+    //       }
+    //     }
+    //   `,
+    //   variables() {
+    //     return {
+    //       param: this.param,
+    //     };
+    //   },
+    //   updateQuery: (previousResult, { subscriptionData }) => {
+    //     return subscriptionData.data.flightStatusChanged;
+    //   },
+    // },
   }
 }
 </script>
