@@ -25,7 +25,7 @@ const defaultOptions = {
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
   //wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://10.2.1.96:8080/',
-  wsEndpoint,
+  wsEndpoint: null,
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
@@ -54,14 +54,24 @@ const defaultOptions = {
   // clientState: { resolvers: { ... }, defaults: { ... } }
 }
 
+
+export const { apolloClient, wsClient } = createApolloClient({
+  ...defaultOptions,
+  //...options,
+})
+apolloClient.wsClient = wsClient
+
+
+
 // Call this in the Vue app file
 export function createProvider (options = {}) {
   // Create apollo client
-  const { apolloClient, wsClient } = createApolloClient({
-    ...defaultOptions,
-    ...options,
-  })
-  apolloClient.wsClient = wsClient
+  
+  // const { apolloClient, wsClient } = createApolloClient({
+  //   ...defaultOptions,
+  //   ...options,
+  // })
+  // apolloClient.wsClient = wsClient
 
   const httpLink = new HttpLink({
     uri: httpEndpoint
@@ -69,7 +79,7 @@ export function createProvider (options = {}) {
   
   const webSocketLink = new WebSocketLink({
     uri: wsEndpoint,
-    options: {
+    options: {...options,
       reconnect: true
     }
   })
