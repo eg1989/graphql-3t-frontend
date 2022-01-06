@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         <tr
-            v-for="flight in board"
+            v-for="flight in arrivals"
             :key="flight.id"
         >
           <td>{{ flight.id }}</td>
@@ -41,9 +41,29 @@
 </template>
 
 <script>
-import gql from 'graphql'
+import gql from 'graphql-tag' 
+
 
 export default {
+
+
+ apollo: {
+    // Simple query that will update the 'hello' vue property
+    arrivals: gql`query {
+       currentBoard(type: ARRIVALS) {
+    type,
+    flights {
+      id
+      start
+      destination
+      arrival
+      status
+    }
+  }
+    }`,
+  },
+
+
   name: "Arrivals",
   data() {
     return{

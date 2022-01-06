@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Departures from "../views/Departures";
 import Arrivals from "../views/Arrivals";
+// import Posts from "../views/Posts";
 
 Vue.use(VueRouter)
 
@@ -21,10 +22,16 @@ const routes = [
     path: '/arrivals',
     name: 'Arrivals',
     component: Arrivals
-  }
+  },
+  // {
+  //   path: '/posts',
+  //   name: 'Posts',
+  //   component: Posts
+  // }
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 
