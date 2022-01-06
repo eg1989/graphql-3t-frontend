@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import gql from 'graphql'
+
 export default {
   name: "Arrivals",
   data() {
@@ -88,7 +90,48 @@ export default {
         },
       ]
     }
-  }
+  },
+  apollo: {
+    board: {
+      query: gql`query flights {
+          currentBoard(type: BoardType!) {
+            type
+            title
+            flights {
+              id
+                start
+                destination
+                arrival
+                departure
+                status
+            }
+          }
+        }`,
+        variables: {
+          type: 'Arrivals'
+        },
+        subscribeToMore: {
+          document: gql`subscription status($param: FlightStatus!) {
+              flightStatusChanged(param: $param) {
+                id
+                start
+                destination
+                arrival
+                departure
+                status
+              }
+            }`,
+            variables () {
+              return {
+                param: this.param
+              }
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+                return subscriptionData.data.flightStatusChanged
+            }
+        }
+      }
+    }
 }
 </script>
 
