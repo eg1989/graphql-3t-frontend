@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
+import { HttpLink } from 'apollo-link-http'
+import { split } from 'apollo-link'
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from 'apollo-utilities'
 import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client'
 
 // Install the vue plugin
@@ -9,7 +13,30 @@ Vue.use(VueApollo)
 const AUTH_TOKEN = 'apollo-token'
 
 // Http endpoint
-const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://10.2.1.96:8080/'
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://10.2.1.96:8080/graphql/'
+
+// WebSocket endpoint
+const wsEndpoint = process.env.VUE_APP_GRAPHQL_WS || 'ws://10.2.1.96:8080/subscriptions'
+
+const httpLink = new HttpLink({
+  uri: httpEndpoint
+})
+
+const webSocketLink = new WebSocketLink({
+  uri: wsEndpoint,
+  options: {
+    reconnect: true
+  }
+})
+
+const link = split(
+  ({query}) => {
+    const definition = getMainDefinition(query)
+    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+  },
+  webSocketLink,
+  httpLink
+)
 
 // Config
 const defaultOptions = {
@@ -18,7 +45,7 @@ const defaultOptions = {
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
   //wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://10.2.1.96:8080/',
-  wsEndpoint: null,
+  wsEndpoint,
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
@@ -32,7 +59,7 @@ const defaultOptions = {
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  // link: myLink
+  link,
 
   // Override default cache
   // cache: myCache
