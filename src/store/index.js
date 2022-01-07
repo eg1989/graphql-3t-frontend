@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { onLogout, apolloClient } from '@/vue-apollo'
-// import { LOGGED_IN_USER } from '@/graphql/queries'
 import { LOGIN_USER, REGISTER_USER } from '@/graphql/mutations'
-
 
 Vue.use(Vuex)
 
@@ -52,8 +50,6 @@ export default new Vuex.Store({
               mutation: LOGIN_USER, variables: { ...authDetails }
             }
           )
-
-        //const token = JSON.stringify(data.login.token)
         const token = data.login.token
 
         commit('SET_TOKEN', token)
@@ -64,8 +60,6 @@ export default new Vuex.Store({
       }
     },
     async setUser({ commit }) {
-      // const { data } = await apolloClient.query({ query: LOGGED_IN_USER })
-
       commit('LOGIN_USER', {
         id: 1,
         name: 'admin',

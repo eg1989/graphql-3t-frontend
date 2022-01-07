@@ -1,58 +1,49 @@
 <template>
-    <div>
-        <v-app-bar color="deep-purple accent-4" dense dark>
+    <v-app>
+        <v-app-bar color="deep-purple accent-4" dense dark app>
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-            <v-toolbar-title>Page title</v-toolbar-title>
-<!--            <v-spacer></v-spacer>-->
-<!--            <router-link to="/">Home</router-link> |-->
-<!--            <router-link to="/arrivals">Arrivals</router-link> |-->
-<!--            <router-link to="/departures">Departures</router-link>-->
+            <v-toolbar-title>{{ appTitle }}</v-toolbar-title>
+
             <v-spacer></v-spacer>
 
             <v-btn icon>
                 <v-icon>mdi-face-man</v-icon>
             </v-btn>
 
-            <v-btn icon to="/login">
+            <v-btn v-if="authStatus" icon to="/logout">
                 <v-icon>mdi-lock-open</v-icon>
             </v-btn>
+
+            <v-btn v-else icon to="/login">
+                <v-icon>mdi-lock</v-icon>
+            </v-btn>
+
+            <template v-if="authStatus" v-slot:extension>
+                <v-tabs align-with-title>
+                    <v-tab
+                        v-for="tab in tabItems"
+                        :key="tab.text"
+                        :to="tab.link"
+                    >
+                        {{ tab.text }}
+                    </v-tab>
+                </v-tabs>
+            </template>
         </v-app-bar>
-        <v-app>
-            <v-main>
-                <router-view />
-            </v-main>
-        </v-app>
-    </div>
-    <!-- <v-app>
-       
-    </v-app> -->
-    <!-- <v-app>
-        <header class="header">
-            <div class="app-name">Blogr</div>
-            <div v-if="authStatus" id="nav">
-                <v-container>
-                <router-link to="/arrivals">Arrivals</router-link> |
-                <router-link to="/departures">Departures</router-link>
-            </v-container>
-                <div>{{ user.name }}</div>                
-                <button class="auth-button" @click="logOut">Log Out</button>
-            </div>
-        </header>
 
         <v-main>
-            <router-view />
-        </v-main>
-
-        <v-main>
-            <v-container>
-                <router-link to="/">Home</router-link> |
-                <router-link to="/arrivals">Arrivals</router-link> |
-                <router-link to="/departures">Departures</router-link>
+            <v-container fluid>
+                <v-row class="fill-height">
+                    <v-col>
+                        <transition name="fade">
+                            <router-view></router-view>
+                        </transition>
+                    </v-col>
+                </v-row>
             </v-container>
-            <router-view />
         </v-main>
-    </v-app> -->
+    </v-app>
 </template>
 
 <script>
@@ -61,13 +52,13 @@
         name: 'App',
 
         data: () => ({
-            appTitle: 'Awesome App',
+            appTitle: 'GraphQL - 3T Showcase',
+            tab: null,
+            tabItems: [
+                { link: '/arrivals', text: 'Arrivals' },
+                { link: '/departures', text: 'Departures' },
+            ],
             sidebar: false,
-            menuItems: [
-                { title: 'Home', path: '/home', icon: 'home' },
-                { title: 'Sign Up', path: '/signup', icon: 'face' },
-                { title: 'Sign In', path: '/login', icon: 'lock_open' }
-            ]
         }),
         methods: {
             logOut: function () {

@@ -1,19 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Landing from '../views/Landing.vue'
 import Departures from "../views/Departures";
 import Arrivals from "../views/Arrivals";
 import store from '../store'
-// import Posts from "../views/Posts";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/dashboard',
-    name: 'Home',
-    component: Home,
-    meta: { requiresAuth: true }
+    path: '/',
+    name: 'Landing',
+    component: Landing,
   },
   {
     path: '/login',
@@ -22,14 +20,6 @@ const routes = [
     // this generates a separate chunk (login.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue')
-  },
-  {
-    path: '/',
-    name: 'Register',
-    // route level code-splitting
-    // this generates a separate chunk (register.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "register" */ '@/views/Register.vue')
   },
   {
     path: '/departures',
@@ -43,11 +33,6 @@ const routes = [
     component: Arrivals,
     meta: { requiresAuth: true }
   },
-  // {
-  //   path: '/posts',
-  //   name: 'Posts',
-  //   component: Posts
-  // }
 ]
 
 const router = new VueRouter({

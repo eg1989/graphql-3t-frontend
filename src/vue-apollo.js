@@ -64,9 +64,9 @@ apolloClient.wsClient = wsClient
 
 
 // Call this in the Vue app file
-export function createProvider (options = {}) {
+export function createProvider(options = {}) {
   // Create apollo client
-  
+
   // const { apolloClient, wsClient } = createApolloClient({
   //   ...defaultOptions,
   //   ...options,
@@ -76,16 +76,17 @@ export function createProvider (options = {}) {
   const httpLink = new HttpLink({
     uri: httpEndpoint
   })
-  
+
   const webSocketLink = new WebSocketLink({
     uri: wsEndpoint,
-    options: {...options,
+    options: {
+      ...options,
       reconnect: true
     }
   })
 
   apolloClient.link = split(
-    ({query}) => {
+    ({ query }) => {
       const definition = getMainDefinition(query)
       return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
     },
@@ -101,7 +102,7 @@ export function createProvider (options = {}) {
         // fetchPolicy: 'cache-and-network',
       },
     },
-    errorHandler (error) {
+    errorHandler(error) {
       // eslint-disable-next-line no-console
       console.log('%cError', 'background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;', error.message)
     },
@@ -109,7 +110,7 @@ export function createProvider (options = {}) {
 }
 
 // Manually call this when user log in
-export async function onLogin (apolloClient, token) {
+export async function onLogin(apolloClient, token) {
   if (typeof localStorage !== 'undefined' && token) {
     localStorage.setItem(AUTH_TOKEN, token)
   }
@@ -123,7 +124,7 @@ export async function onLogin (apolloClient, token) {
 }
 
 // Manually call this when user log out
-export async function onLogout (apolloClient) {
+export async function onLogout(apolloClient) {
   if (typeof localStorage !== 'undefined') {
     localStorage.removeItem(AUTH_TOKEN)
   }

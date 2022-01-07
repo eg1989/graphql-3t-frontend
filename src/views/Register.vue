@@ -1,21 +1,14 @@
 <template>
     <div class="auth">
         <v-container>
-          <v-row>
-            <v-col>
-              <h3>Sign In</h3>
-            </v-col>
-            <v-col>
-
-            </v-col>
-          </v-row>
-          <v-row>
-
-          </v-row>
-
-<!--          <h3>Sign Up</h3>-->
+            <v-row>
+                <v-col>
+                    <h3>Sign In</h3>
+                </v-col>
+                <v-col> </v-col>
+            </v-row>
+            <v-row> </v-row>
             <form action="POST" @submit.prevent="registerUser">
-
                 <v-text-field
                     id="name"
                     type="text"
