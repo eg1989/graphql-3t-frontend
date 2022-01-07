@@ -11,7 +11,7 @@
                 <v-icon>mdi-face-man</v-icon>
             </v-btn>
 
-            <v-btn v-if="authStatus" icon to="/logout">
+            <v-btn v-if="authStatus" icon @click="logOut()">
                 <v-icon>mdi-lock-open</v-icon>
             </v-btn>
 
